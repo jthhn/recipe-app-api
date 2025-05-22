@@ -1,0 +1,15 @@
+# version: '3.9'
+
+services:
+  app:
+    build: 
+      context: . # use the current directory to run docker compose
+      args:
+        - DEV=true
+    ports:
+      - "8000:8000"  # port 8000 in local mechine to port 8000 docker container
+    volumes:
+      - ./app:/app  # makes the updates  from local project to the running container
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+

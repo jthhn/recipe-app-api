@@ -3,7 +3,7 @@ Tests for recipe API.
 """
 from decimal import Decimal
 import tempfile
-import os 
+import os
 
 from PIL import Image
 
@@ -396,13 +396,13 @@ class ImageUploadTests(TestCase):
     def test_upload_image(self):
         """Test uploading an image to a recipe."""
         url = image_upload_url(self.recipe.id)
-        with tempfile.NamedTemporaryFile(suffix='.jpg') as  image_file:
+        with tempfile.NamedTemporaryFile(suffix='.jpg') as image_file:
             img = Image.new('RGB', (10, 10))
             img.save(image_file, format='JPEG')
             image_file.seek(0)
             payload = {'image': image_file}
             res = self.client.post(url, payload, format='multipart')
-        
+
         self.recipe.refresh_from_db()
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn('image', res.data)
